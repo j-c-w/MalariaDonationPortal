@@ -1,2 +1,4 @@
 node_modules/*
+models/*.js
 .idea
+npm-debug.log
