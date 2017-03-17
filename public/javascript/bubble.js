@@ -1,5 +1,7 @@
 // Created by Kamile on 17/03/2017
 
+
+
 // TODO -- receive real data from server for each user
 var userData = {'name' : 'flare',
                 'children' : [
@@ -11,12 +13,7 @@ var userData = {'name' : 'flare',
                   { 'name' : 'United Kingdom', 'size' : 70, 'messages' : '', 'dates' : '12/03/2017  01:03:00'}
                ]};
 
-// TODO -- format date strings as e.g. Friday 17th March 2017
-var formatDate = function(dateString) {
 
-}
-
-// TODO -- format messages
 var formatMessages = function(messageString) {
   // replace commas separating messages with new line characters
   return messageString.replace(/,/gi, '\n');
@@ -48,12 +45,11 @@ var node = svg.selectAll(".node")
     .attr("class", "node")
     .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 
+
 node.append("circle")
     .attr("id", function(d) { return d.id; })
     .attr("r", function(d) { return d.r; })
-    .style("fill", function(d,i) {
-      console.log(d);
-      return color(i); });
+    .style("fill", function(d,i) { return color(i); });
 
 
 node.append("text")
@@ -66,7 +62,6 @@ node.append("text")
 
 node.append("title")
     .text(function(d) {
-      console.log(d.data);
       return "Messages:\n " + formatMessages(d.data.messages)
               +  "\nDates donations were made:\n " + formatMessages(d.data.dates); });
 
@@ -83,5 +78,6 @@ function classes(root) {
   recurse(null, root);
   return {children: classes};
 }
+
 
 d3.select(window.self.frameElement).style("height", diameter + "px");
