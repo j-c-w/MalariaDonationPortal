@@ -6,9 +6,10 @@ var express = require('express');
 var pug = require('pug');
 var router = express.Router();
 
-router.get('/map/', function (req, res) {
+router.get('/map/', function (req, res, next) {
 
     res.render('map');
+    next();
 
 });
 

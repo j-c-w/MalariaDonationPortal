@@ -32,12 +32,16 @@ passport.deserializeUser(function(id, done) { // TODO: Figure out why this isn't
 
 function init(server) {
 
+    server.use(require('morgan')('tiny'));
+    server.use(require('cookie-parser')());
+    server.use(require('body-parser').urlencoded({ extended: true }));
+    server.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
     server.use(passport.initialize());
     server.use(passport.session());
 
     server.get('/auth/', passport.authenticate('facebook'));
 
-    server.get('/auth/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/' }));
+    server.get('/auth/callback', passport.authenticate('facebook', { successRedirect: '/dashboard/', failureRedirect: '/' }));
 
 }
 
