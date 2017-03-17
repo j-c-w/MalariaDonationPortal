@@ -1,28 +1,23 @@
-var neo4j = require('neo4j');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test');
 
-var db;
+var User = mongoose.model('User', {fname: String, lname: String, uid: Number});
+var Donation = mogoose.model('Donation', {
+		donationID: Number, message: String, displayName: String, 
+		anonymous: Boolean, amountUSD: Number, amountLocal: String,
+		nets: Number
+});
 
-// This HAS to be called when you start the server to set up the
-// database.
-var setup = function() {
-	db = new neo4j.GraphDatabase('bolt://neo4j:novmember@localhost:7474');
-	console.log('setup called');
-
-	db.onCompleted = function() {
-		console.log('connection created');
-	}
-
-	db.onError = function(error) {
-		console.log('Driver instantiation failed', error);
-	}
-
-	console.log(db);
+var createOrGetUser = function(uid) {
+	User.findById(function(
 }
 
-var findUserOrCreate = function(profile) {
-	// Returns the user
-};
-
-exports.findUserOrCreate = findUserOrCreate
-exports.setup = setup;
+var u1 = new User({fname: "Jackson", lname: "Woodruff", uid: 1});
+u1.save(function(error) {
+	User.find(function(error, users) {
+		if (error) {
+			console.log('error', error);
+		}
+	})
+});
 
