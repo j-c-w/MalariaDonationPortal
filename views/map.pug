@@ -1,1 +1,127 @@
 extends layout
+
+block styles
+  link(rel='stylesheet' href='/static/css/map.css')
+
+block content
+
+  script(async, defer, src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqgkUm0oXOiYJ_DeGtLMFGKgKg56kGoSY")
+
+  script
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 2,
+      center: {lat: 30, lng: 25},
+      mapTypeId: 'terrain'
+    });
+    var pairs = {};
+    var donees = {};
+    var donors = {};
+
+    //1. draw an arrow between every pair
+    //- pairs looks like 
+    //-   { 
+    //-     { to: "CC", from: "CC"},
+    //-     { to: "CC", from: "CC"},
+    //-     ...
+    //-   }
+    for (pair in pairs) {
+      drawArrow(pair.to, pair.from);
+    }
+
+    //2. create a marker for every donee
+    //- donees looks like
+    //-   {
+    //-     { country: "CC", usd: number, nets: number },
+    //-     { country: "CC", usd: number, nets: number },
+    //-     ...
+    //-   }
+    for (donee in donees) {
+      createDoneeMarker(donee.country, donee.usd, donee.nets);
+    }
+
+    //3. create a marker for every donor
+    //- donors looks like
+    //-   {
+    //-     { country: "CC", usd: number, nets: number },
+    //-     { country: "CC", usd: number, nets: number },
+    //-     ...
+    //-   }
+    for (donor in donors) {
+      createDonorMarker(donor.country, donor.usd, donor.nets);
+    }
+
+    //Various functions
+
+    //to and from are two letter country code strings
+    function drawArrow(to, from) {
+      var lineSymbol = {
+        path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
+      };
+
+      var fromLat = 0;
+      var fromLng = 0;
+      var toLat = 0;
+      var toLng = 0;
+      var line = new google.maps.Polyline({
+        path: [{lat: fromLat, lng: fromLng}, {lat: toLat, lng: toLng}],
+        icons: [{
+          icon: lineSymbol,
+          offset: '100%'
+        }],
+        map: map
+      });
+    }
+
+    //country is a two letter country code string; usd and nets are numbers
+    function createDoneeMarker(country, usd, nets) {
+      var lat = 0;
+      var lng = 0;
+      var countryName = "";
+
+      var contentString = '<div>'+
+      '<h1>Donee country: ' + countryName + '</h1>' +
+      '<p>Amount donated: USD ' + usd + '</p>' +
+      '<p>Nets bought: ' + nets + '</p>' +
+      '</div>';
+
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+      var marker = new google.maps.Marker({
+        position: {lat: lat, lng: lng},
+        map: map,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+      });
+      marker.addListener('mouseover', function() {
+        infowindow.open(map, marker);
+      });
+    }
+
+    //country is a two letter country code string; usd and nets are numbers
+    function createDonorMarker(country, usd, nets) {
+      var lat = 0;
+      var lng = 0;
+      var countryName = "";
+
+      var contentString = '<div>'+
+      '<h1>Donor country: ' + countryName + '</h1>' +
+      '<p>Amount donated: USD ' + usd + '</p>' +
+      '<p>Nets bought: ' + nets + '</p>' +
+      '</div>';
+
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+      var marker = new google.maps.Marker({
+        position: {lat: lat, lng: lng},
+        map: map,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      });
+      marker.addListener('mouseover', function() {
+        infowindow.open(map, marker);
+      });
+    }
+  
+  div(id = 'map')
