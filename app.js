@@ -3,3 +3,10 @@
  */
 
 var server = require('./server');
+var auth = require('./auth');
+
+// Setup authentication
+auth(server);
+
+// Start server
+server.listen(3000);
