@@ -1,22 +1,5 @@
-{
-  "name": "malaria_donation_portal",
-  "version": "1.0.0",
-  "description": "A webapp for people to visualize their donations.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/j-c-w/MalariaDonationPortal.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/j-c-w/MalariaDonationPortal/issues"
-  },
-  "homepage": "https://github.com/j-c-w/MalariaDonationPortal#readme",
-  "dependencies": {
-    "express": "^4.15.2"
+{ "dependencies" :
+  { "express" : "latest",
+	"pug" : "latest"
   }
 }
