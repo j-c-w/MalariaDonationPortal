@@ -2,3 +2,14 @@
 extends layout
 
 block content
+
+    .container
+        .row
+            .col-sm-6
+                ul.nav.nav-pills
+                    li
+                        a(href='#') My Donations
+                    li
+                        a(href='/map/') Donation by Country
+            .col-sm-6
+                include profile

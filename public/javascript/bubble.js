@@ -1,8 +1,5 @@
 // Created by Kamile on 17/03/2017
 
-
-//var d3 = require('d3');
-
 // TODO -- receive real data from server for each user
 var userData = {'name' : 'flare',
                 'children' : [{ 'name' : 'Syria', 'size' : 200 },

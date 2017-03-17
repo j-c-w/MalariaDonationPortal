@@ -9,7 +9,7 @@ var router = express.Router();
 router.get('/dashboard/', function (req, res, next) {
 
     console.log(req.user);
-    res.render('dashboard');
+    res.render('dashboard', {user: req.user, amountDonated: 10000});
 
     next();
 

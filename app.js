@@ -8,7 +8,7 @@ var auth = require('./auth');
 var database = require('./database');
 
 // Setup authentication
-auth(app);
+auth(app, database);
 
 // Setup routing
 server.setupRoutes();

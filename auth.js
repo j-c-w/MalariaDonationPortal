@@ -5,32 +5,29 @@
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
+function init(server, db) {
 
-passport.use(new FacebookStrategy({
-        clientID: '174325613081244',
-        clientSecret: 'dec65dcd8ff5165c5e11961823bead48',
-        callbackURL: "http://localhost:3000/auth/callback/",
-        profileFields: ['id', 'first_name', 'last_name']
-    },
-    function(accessToken, refreshToken, profile, done) {
-        // TODO: find or create user
-        return done(null, profile);
-    }
-));
+    passport.use(new FacebookStrategy({
+            clientID: '174325613081244',
+            clientSecret: 'dec65dcd8ff5165c5e11961823bead48',
+            callbackURL: "http://localhost:3000/auth/callback/",
+            profileFields: ['id', 'first_name', 'last_name', 'picture.type(large)']
+        },
+        function(accessToken, refreshToken, profile, done) {
+            db.findOrCreateUser(profile, done);
+        }
+    ));
 
-passport.serializeUser(function(user, done) {
-    // Serialize user
-    console.log('Serialize User');
-    return done(null, user);
-});
+    passport.serializeUser(function(user, done) {
+        // Serialize user
+        console.log('Serialize User');
+        return done(null, user.uid);
+    });
 
-passport.deserializeUser(function(id, done) { // TODO: Figure out why this isn't being called
-    // Deserialize user
-    console.log('Deserialize User');
-    return done(null, id);
-});
-
-function init(server) {
+    passport.deserializeUser(function(id, done) {
+        // Deserialize user
+        db.findUserById(id, done);
+    });
 
     server.use(require('morgan')('tiny'));
     server.use(require('cookie-parser')());
