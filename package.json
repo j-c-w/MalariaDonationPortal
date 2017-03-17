@@ -12,6 +12,7 @@
     "pug": "2.0.0-beta11",
 	"passport": "latest",
 	"passport-facebook": "latest",
+	"neo4j": "latest",
     "death": "1.1.0"
   },
   "devDependencies": {

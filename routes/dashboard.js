@@ -6,10 +6,12 @@ var express = require('express');
 var pug = require('pug');
 var router = express.Router();
 
-router.get('/dashboard/', function (req, res) {
+router.get('/dashboard/', function (req, res, next) {
 
     console.log(req.user);
     res.render('dashboard');
+
+    next();
 
 });
 
