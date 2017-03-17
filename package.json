@@ -5,20 +5,21 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
+    "death": "latest",
     "express": "^4.15.2",
     "express-session": "^1.15.1",
     "morgan": "^1.8.1",
-    "pug": "^2.0.0-beta11",
-    "death": "latest"
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "pug": "^2.0.0-beta11"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0"
   },
-
   "license": "MIT",
   "url": "https://github.com/j-c-w/MalariaDonationPortal",
   "repository": {
-	  "type": "git",
-	  "url": "https://github.com/j-c-w/MalariaDonationPortal.git"
+    "type": "git",
+    "url": "https://github.com/j-c-w/MalariaDonationPortal.git"
   }
 }
