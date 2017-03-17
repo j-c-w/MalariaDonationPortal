@@ -9,14 +9,22 @@ var app = express();
 // Set the default template engine
 app.set('view engine', 'pug');
 
-app.use('/public', express.static('public'));
-app.use(require('morgan')('tiny'));
-app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use('/static', express.static('public'));
 
-// Setup routes
-var index = require('./routes/index');
-app.use(index);
+function setupRoutes() {
 
-module.exports = app;
+    // Setup routes
+    var index = require('./routes/index');
+    var dashboard = require('./routes/dashboard');
+    var map = require('./routes/map');
+    var user = require('./routes/user');
+
+    app.use(index);
+    app.use(dashboard);
+    app.use(map);
+    app.use(user);
+
+}
+
+exports.app = app;
+exports.setupRoutes = setupRoutes

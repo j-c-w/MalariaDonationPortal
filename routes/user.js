@@ -6,9 +6,9 @@ var express = require('express');
 var pug = require('pug');
 var router = express.Router();
 
-router.get('/', function (req, res, next) {
+router.get('/user/', function (req, res, next) {
 
-    res.render('index');
+    res.render('user');
     next();
 
 });
