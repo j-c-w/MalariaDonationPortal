@@ -1,33 +1,27 @@
-var ON_DEATH = require('death');
-var neo4j = require('neo4j-driver').v1;
+var neo4j = require('neo4j');
 
-var driver;
+var db;
 
 // This HAS to be called when you start the server to set up the
 // database.
 var setup = function() {
-	driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "neo4j"));
+	db = new neo4j.GraphDatabase('bolt://neo4j:novmember@localhost:7474');
+	console.log('setup called');
 
-	driver.onCompleted = function() {
-		// TODO -- stuff
+	db.onCompleted = function() {
+		console.log('connection created');
 	}
 
-	driver.onError = function(error) {
+	db.onError = function(error) {
 		console.log('Driver instantiation failed', error);
 	}
+
+	console.log(db);
 }
 
 var findUserOrCreate = function(profile) {
 	// Returns the user
 };
-
-
-// This triggers the database connection being closed
-// on the application death.
-ON_DEATH(function(signal, error) {
-	// Close the database connection.
-
-});
 
 exports.findUserOrCreate = findUserOrCreate
 exports.setup = setup;
