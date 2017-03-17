@@ -1,4 +1,3 @@
-
 // Created by Kamile on 17/03/2017
 
 // TODO -- receive real data from server for each user

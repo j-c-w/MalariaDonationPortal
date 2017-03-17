@@ -1,28 +1,71 @@
-var neo4j = require('neo4j');
 
-var db;
+var mongoose = require('mongoose');
+var User = require('./models/User');
 
-// This HAS to be called when you start the server to set up the
-// database.
-var setup = function() {
-	db = new neo4j.GraphDatabase('bolt://neo4j:novmember@localhost:7474');
-	console.log('setup called');
 
-	db.onCompleted = function() {
-		console.log('connection created');
-	}
+mongoose.connect('mongodb://localhost/test');
 
-	db.onError = function(error) {
-		console.log('Driver instantiation failed', error);
-	}
 
-	console.log(db);
+
+/*var User = mongoose.model('User', {fname: String, lname: String, uid: Number});
+var Donation = mogoose.model('Donation', {
+		donationID: Number, message: String, displayName: String, 
+		anonymous: Boolean, amountUSD: Number, amountLocal: String,
+		nets: Number
+});*/
+
+function createUser(fname, lname, id, cb) {
+
+	console.log('Create User');
+
+	var user = new User({fname: fname, lname: lname, uid: id});
+	user.save(function (err) {
+
+		cb(err, user);
+
+	});
 }
 
-var findUserOrCreate = function(profile) {
-	// Returns the user
-};
+function findUserById(id, cb){
 
-exports.findUserOrCreate = findUserOrCreate
-exports.setup = setup;
+	console.log('Find User');
+
+	User.findOne({uid: id}, function (err, user) {
+
+		cb(err, user);
+
+	});
+
+}
+
+function findOrCreateUser(profile, cb) {
+
+	console.log('Find/Create User');
+
+	findUserById(profile.id, function (err, user) {
+
+		if(user === null){
+			// Create a new user
+			console.log(profile);
+			createUser(profile.name.givenName, profile.name.familyName, profile.id, function (err, user) {
+
+				cb(err, user);
+
+			});
+		}
+		else{
+
+			cb(err, user);
+
+		}
+
+
+	});
+
+}
+
+exports.findOrCreateUser = findOrCreateUser;
+exports.findUserById = findUserById;
+exports.createUser = createUser;
+
 

@@ -1,2 +1,20 @@
-// Created by Kamile on 17/03/2017
+//- Created by Kamile on 17/03/2017
 extends layout
+
+block styles
+  link(rel='stylesheet' href='/static/css/map.css')
+
+block content
+
+  nav.navbar.navbar-default.navbar-fixed-top
+    .container-fluid
+      ul.nav.navbar-nav
+        li
+          a(href="/dashboard/")
+            span.glyphicon.glyphicon-arrow-left
+
+  div#map
+
+  script(async, defer, src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqgkUm0oXOiYJ_DeGtLMFGKgKg56kGoSY&callback=initMap")
+  script(src='/static/javascript/map.js')
+

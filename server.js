@@ -27,4 +27,4 @@ function setupRoutes() {
 }
 
 exports.app = app;
-exports.setupRoutes = setupRoutes
+exports.setupRoutes = setupRoutes;

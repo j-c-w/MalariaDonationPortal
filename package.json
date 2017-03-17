@@ -1,23 +1,24 @@
 {
   "scripts": {
     "build": "babel ./models/src -d ./models",
-	"app": "npm run build && sudo node app.js"
+    "app": "sudo node app.js"
   },
   "dependencies": {
     "body-parser": "1.17.1",
     "cookie-parser": "1.4.3",
+    "death": "1.1.0",
     "express": "4.15.2",
     "express-session": "1.15.1",
+    "mongodb": "^2.2.25",
+    "mongoose": "latest",
     "morgan": "1.8.1",
-    "pug": "2.0.0-beta11",
-	"passport": "latest",
-	"passport-facebook": "latest",
-	"neo4j": "latest",
-    "death": "1.1.0"
+    "passport": "latest",
+    "passport-facebook": "latest",
+    "pug": "2.0.0-beta11"
   },
   "devDependencies": {
     "babel-cli": "6.24.0",
-	"babel-preset-env": "1.2.2"
+    "babel-preset-env": "1.2.2"
   },
   "license": "MIT",
   "url": "https://github.com/j-c-w/MalariaDonationPortal",
