@@ -2,11 +2,9 @@
  * Created by Jamie on 17/03/2017.
  */
 
-var express = require('express');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-var app;
 
 passport.use(new FacebookStrategy({
         clientID: '174325613081244',
@@ -32,26 +30,14 @@ passport.deserializeUser(function(id, done) { // TODO: Figure out why this isn't
     return done(null, id);
 });
 
-// app is the express app
-function init(express) {
+function init(server) {
 
-    // Get the express app
-    app = express;
+    server.use(passport.initialize());
+    server.use(passport.session());
 
-    app.use(passport.initialize());
-    app.use(passport.session());
+    server.get('/auth/', passport.authenticate('facebook'));
 
-    app.get('/auth/', passport.authenticate('facebook'));
-
-    app.get('/auth/callback',
-        passport.authenticate('facebook', { failureRedirect: '/login' }),
-        function(req, res) {
-            // Successful authentication, redirect home.
-            console.log('Login successful');
-            console.log(req.user);
-            res.redirect('/');
-        }
-    );
+    server.get('/auth/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/' }));
 
 }
 
