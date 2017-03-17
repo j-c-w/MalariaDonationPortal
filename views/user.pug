@@ -4,6 +4,15 @@ block content
 
   script(src="https://d3js.org/d3.v4.min.js")
   script
+
+    // TODO -- receive real data from server for each user
+    var tempData = {'name' : 'flare',
+                    'children' : [
+                      { 'name' : 'Syria', 'amount' : 200 },
+                      { 'name' : 'US', 'amount' : 10 },
+                      { 'name' : 'Tanzania', 'amount' : 50}
+                    ]};
+
     var diameter = 1400,
     format = d3.format(",d"),
     color = d3.scale.category10();
@@ -23,31 +32,31 @@ block content
 
     // TODO -- Replace flare.json file with file containing user data
     d3.json("flare.json", function(error, root) {
-    var node = svg.selectAll(".node")
-        .data(bubble.nodes(classes(root))
-        .filter(function(d) { return !d.children; }))
-        .enter().append("g")
-        .attr("class", "node")
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+      var node = svg.selectAll(".node")
+          .data(bubble.nodes(classes(root))
+          .filter(function(d) { return !d.children; }))
+          .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+      // TODO -- On click, show messages sent along with donations to this country
+      node.append("title")
+          .text(function(d) { return d.className + ": " + format(d.value/1)
+          +"\nThis country is a part of "+ d.packageName; });
 
 
-    node.append("title")
-        .text(function(d) { return d.className + ": " + format(d.value/1)
-        +"\nThis country is a part of "+ d.packageName; });
+      node.append("circle")
+          .attr("r", function(d) { return d.r; })
+          .style("fill",  function(d){return color(d.packageName);});
 
 
-    node.append("circle")
-        .attr("r", function(d) { return d.r; })
-        .style("fill",  function(d){return color(d.packageName);});
-
-
-    node.append("text")
-        .attr("textLength",function(d){return d.r})
-        .attr("dy", ".3em")
-        .style("text-anchor", "middle")
-        .style("font-size", function(d){return (((d.r-50)/10)+8)+"px"})
-        .style("font-weight","bold")
-        .text(function(d) { return d.className; });
+      node.append("text")
+          .attr("textLength",function(d){return d.r})
+          .attr("dy", ".3em")
+          .style("text-anchor", "middle")
+          .style("font-size", function(d){return (((d.r-50)/10)+8)+"px"})
+          .style("font-weight","bold")
+          .text(function(d) { return d.className; });
     });
 
     // Returns a flattened hierarchy containing all leaf nodes under the root.
