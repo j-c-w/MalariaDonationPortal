@@ -11,8 +11,8 @@
     "morgan": "1.8.1",
     "pug": "2.0.0-beta11",
 	"passport": "latest",
+	"mongoose": "latest",
 	"passport-facebook": "latest",
-	"neo4j": "latest",
     "death": "1.1.0"
   },
   "devDependencies": {
