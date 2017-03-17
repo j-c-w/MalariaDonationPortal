@@ -1,3 +1,4 @@
+// Created by Kamile on 17/03/2017
 extends layout
 
 block content
@@ -6,58 +7,57 @@ block content
   script
 
     // TODO -- receive real data from server for each user
-    var tempData = {'name' : 'flare',
-                    'children' : [
-                      { 'name' : 'Syria', 'amount' : 200 },
-                      { 'name' : 'US', 'amount' : 10 },
-                      { 'name' : 'Tanzania', 'amount' : 50}
-                    ]};
+    var userData = {'name' : 'flare',
+              |      'children' : [{ 'name' : 'Syria', 'size' : 200 },
+              |        { 'name' : 'US', 'size' : 10 },
+              |        { 'name' : 'Tanzania', 'size' : 50}
+              |      ]};
 
-    var diameter = 1400,
-    format = d3.format(",d"),
-    color = d3.scale.category10();
+    var diameter = 1400;
+    var format = d3.format(",d");
+    var color = d3.scale.category10();
 
 
     var bubble = d3.layout.pack()
       .sort(null)
-      .size([diameter, diameter+200])
-      .padding(5.5);
+      .size([diameter, diameter])
+      .padding(1.5)
 
 
     var svg = d3.select("body").append("svg")
       .attr("width", diameter)
       .attr("height", diameter)
-      .attr("class", "bubble");
+      .attr("class", "bubble")
 
 
-    // TODO -- Replace flare.json file with file containing user data
-    d3.json("flare.json", function(error, root) {
-      var node = svg.selectAll(".node")
-          .data(bubble.nodes(classes(root))
-          .filter(function(d) { return !d.children; }))
-          .enter().append("g")
-          .attr("class", "node")
-          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-      // TODO -- On click, show messages sent along with donations to this country
-      node.append("title")
-          .text(function(d) { return d.className + ": " + format(d.value/1)
-          +"\nThis country is a part of "+ d.packageName; });
+    // Create node for all countries donated to
+    var node = svg.selectAll(".node")
+        .data(bubble.nodes(classes(userData)) // data passed from database
+        .filter(function(d) { return d.children; }))
+        .enter().append("g")
+        .attr("class", "node")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 
 
-      node.append("circle")
-          .attr("r", function(d) { return d.r; })
-          .style("fill",  function(d){return color(d.packageName);});
+    // TODO -- On click, show messages sent along with donations to this country
+    node.append("title")
+        .text(function(d) { return d.className + ": " + format(d.value)});
 
 
-      node.append("text")
-          .attr("textLength",function(d){return d.r})
-          .attr("dy", ".3em")
-          .style("text-anchor", "middle")
-          .style("font-size", function(d){return (((d.r-50)/10)+8)+"px"})
-          .style("font-weight","bold")
-          .text(function(d) { return d.className; });
-    });
+    node.append("circle")
+        .attr("r", function(d) { return d.r; })
+        .style("fill",  function(d){return color(d.packageName);});
+
+
+    node.append("text")
+        .attr("textLength",function(d){return d.r})
+        .attr("dy", ".3em")
+        .style("text-anchor", "middle")
+        .style("font-size", function(d){return (((d.r-50)/10)+8)+"px"})
+        .style("font-weight","bold")
+        .text(function(d) { return d.className; });
+
+
 
     // Returns a flattened hierarchy containing all leaf nodes under the root.
     function classes(root) {
@@ -75,8 +75,3 @@ block content
     d3.select(window.self.frameElement).style("height", diameter + "px");
 
   h1 My Donations
-
-  div(id='profile')
-    p User name
-    p Profile picture
-    p Member Since
