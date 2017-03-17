@@ -14,11 +14,11 @@ var Donation = mogoose.model('Donation', {
 		nets: Number
 });*/
 
-function createUser(fname, lname, id, cb) {
+function createUser(fname, lname, id, image, cb) {
 
 	console.log('Create User');
 
-	var user = new User({fname: fname, lname: lname, uid: id});
+	var user = new User({fname: fname, lname: lname, uid: id, image: image});
 	user.save(function (err) {
 
 		cb(err, user);
@@ -47,7 +47,7 @@ function findOrCreateUser(profile, cb) {
 		if(user === null){
 			// Create a new user
 			console.log(profile);
-			createUser(profile.name.givenName, profile.name.familyName, profile.id, function (err, user) {
+			createUser(profile.name.givenName, profile.name.familyName, profile.id, profile.photos[0].value, function (err, user) {
 
 				cb(err, user);
 
