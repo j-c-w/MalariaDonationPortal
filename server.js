@@ -10,11 +10,13 @@ var app = express();
 app.set('view engine', 'pug');
 
 app.use('/public', express.static('public'));
+app.use(require('morgan')('tiny'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 
 // Setup routes
 var index = require('./routes/index');
 app.use(index);
-
-app.listen(3000);
 
 module.exports = app;

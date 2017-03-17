@@ -1,6 +1,24 @@
 {
+  "scripts": {
+    "build": "babel ./models/src -d ./models"
+  },
   "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
-    "pug": "^2.0.0-beta11"
+    "express-session": "^1.15.1",
+    "morgan": "^1.8.1",
+    "pug": "^2.0.0-beta11",
+    "death": "latest"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0"
+  },
+
+  "license": "MIT",
+  "url": "https://github.com/j-c-w/MalariaDonationPortal",
+  "repository": {
+	  "type": "git",
+	  "url": "https://github.com/j-c-w/MalariaDonationPortal.git"
   }
 }
