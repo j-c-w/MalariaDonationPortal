@@ -8,36 +8,35 @@ block content
 
     // TODO -- receive real data from server for each user
     var userData = {'name' : 'flare',
-                    'children' : [
-                      { 'name' : 'Syria', 'amount' : 200 },
-                      { 'name' : 'US', 'amount' : 10 },
-                      { 'name' : 'Tanzania', 'amount' : 50}
-                    ]};
+              |      'children' : [{ 'name' : 'Syria', 'size' : 200 },
+              |        { 'name' : 'US', 'size' : 10 },
+              |        { 'name' : 'Tanzania', 'size' : 50}
+              |      ]};
 
-    var diameter = 1400,
-    format = d3.format(",d"),
-    color = d3.scale.category10();
+    var diameter = 1400;
+    var format = d3.format(",d");
+    var color = d3.scale.category10();
 
 
     var bubble = d3.layout.pack()
       .sort(null)
       .size([diameter, diameter])
-      .padding(5.5);
+      .padding(1.5)
 
 
     var svg = d3.select("body").append("svg")
       .attr("width", diameter)
       .attr("height", diameter)
-      .attr("class", "bubble");
+      .attr("class", "bubble")
 
 
     // Create node for all countries donated to
     var node = svg.selectAll(".node")
         .data(bubble.nodes(classes(userData)) // data passed from database
-        .filter(function(d) { return !d.children; }))
+        .filter(function(d) { return d.children; }))
         .enter().append("g")
         .attr("class", "node")
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
 
 
     // TODO -- On click, show messages sent along with donations to this country
@@ -76,5 +75,3 @@ block content
     d3.select(window.self.frameElement).style("height", diameter + "px");
 
   h1 My Donations
-
-  include profile.pug
